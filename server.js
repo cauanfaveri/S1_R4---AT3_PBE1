@@ -20,12 +20,7 @@ app.post('/alunos', async (req, res) => {
         await validacaoNotas(notas);
 
         const media = notas.reduce((accumulator, currentValue) => accumulator + currentValue) / notas.length;
-        const resultado = media > 6 ? `Olá ${nome} voce foi aprovado(a) com média ${media}.` : `Olá ${nome}, voce foi reprovao(a) com média de ${media}`;
-        // if (media > 6) {
-        //     Aprovacao = `Você foi aprovado(a)`
-        // } else {
-        //     Aprovacao = `Voce foi reprovada`
-        // }
+        const resultado = media > 6 ? `Olá ${nome} voce foi aprovado(a) com média ${media}.` : `Olá ${nome}, voce foi reprovado(a) com média de ${media}`;
         res.status(201).json({ message: resultado });
 
     } catch (error) {
