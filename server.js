@@ -3,24 +3,26 @@ const app = express();
 const PORT = 8082;
 
 app.use(express.json())
-async function validaçao(pNotas) {
-    try {
-        if (isNaN(pNotas)) {
-            throw new Error("Os valores digitados são inválidos")
+async function validacaoNumeros(pNumeros) {
+    pNumeros.forEach(numero => {
+        if (isNaN(numero)) {
+            return ('Tem valores não numéricos no body')
         }
-        const notas = parseFloat(pNotas);
-        return { notas };
-    } catch (error) {
-        throw new Error(error)
-    }
+    });
 }
 
 app.post('/soma', async (req, res) => {
     try {
         const { numeros } = req.body;
         console.log( numeros );
-        const soma = numeros.reduce((accumulator, currentValue) => accumulator + currentValue);
-        res.status(201).json({ message: `A soma é ${soma}`});    
+        const soma = numeros.reduce((accumulator, currentValue) => {
+            const numero = (currentValue);
+            if (!isNaN(numero)){ //verificando se não é um numero, se ele for diferente vai adicionar o numero no acumuladro 
+                return accumulator + numero // add numero no acumulador
+            }
+            return accumulator;
+        }, 0);
+        res.status(201).json({ message: `O resultado da soma é ${soma}`});    
         
     } catch (error) {
        console.error(error);
