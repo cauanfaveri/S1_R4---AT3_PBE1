@@ -2,23 +2,6 @@ const express = require('express');
 const app = express();
 const PORT = 8082;
 
-app.use(express.json())
-function getFileContent(srcPath, callback) { 
-    fs.readFile(srcPath, 'utf8', function (err, data) {
-        if (err) throw err;
-        callback(data);
-        }
-    );
-}
-
-function copyFileContent(savPath, srcPath) { 
-    getFileContent(srcPath, function(data) {
-        fs.writeFile (savPath, data, function(err) {
-            if (err) throw err;
-            console.log('complete');
-        });
-    });
-}
 app.post('/usuarios', async (req, res) => {
     try {
         const { nome, email, senha } = req.body;
