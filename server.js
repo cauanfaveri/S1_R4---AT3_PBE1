@@ -15,10 +15,10 @@ async function validaçao(pNotas) {
     }
 }
 
-app.post('/alunos', async (req, res) => {
+app.post('/usuarios', async (req, res) => {
     try {
-        const { nome, notas } = req.body;
-        console.log(nome, notas);
+        const { nome, email, senha } = req.body;
+        console.log(nome, email, senha);
         const media = notas.reduce((accumulator, currentValue) => accumulator + currentValue)/4;
         if (media > 6){
             Aprovacao = `Você foi aprovada`
