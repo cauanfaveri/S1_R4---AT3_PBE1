@@ -15,17 +15,12 @@ async function validaçao(pNotas) {
     }
 }
 
-app.post('/alunos', async (req, res) => {
+app.post('/soma', async (req, res) => {
     try {
-        const { nome, notas } = req.body;
-        console.log(nome, notas);
-        const media = notas.reduce((accumulator, currentValue) => accumulator + currentValue)/4;
-        if (media > 6){
-            Aprovacao = `Você foi aprovada`
-        } else {
-            Aprovacao = `Voce foi reprovada`
-        }
-        res.status(201).json({ message: `Ola ${nome}, Sua média é ${media}, ${Aprovacao}`});    
+        const { numeros } = req.body;
+        console.log( numeros );
+        const soma = numeros.reduce((accumulator, currentValue) => accumulator + currentValue);
+        res.status(201).json({ message: `A soma é ${soma}`});    
         
     } catch (error) {
        console.error(error);
