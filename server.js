@@ -1,8 +1,25 @@
 const express = require('express');
+const fs = require('fs')
 const app = express();
 const PORT = 8082;
 
-app.post('/usuarios', async (req, res) => {
+app.use(express.json());
+function salvarArquivo(pUsuarios) {
+    const arquivo = './usuarios.json'
+    let usuarios = [];
+    if(fs.existsSync(arquivo)){
+        const dadosArquivo = fs.readFileSync(arquivo, 'utf8');
+        if (dadosArquivo){
+            usuarios = JSON.parse(dadosArquivo)
+        }
+    }
+
+    usuarios.push(pUsuarios)
+
+    fs.writeFileSync(arquivo, JSON.stringify(usuarios, null, 2), 'utf8');
+}
+
+app.post('/usuarios', (req, res) => {
     try {
         const { nome, email, senha } = req.body;
         console.log( nome, email, senha );
@@ -15,6 +32,9 @@ app.post('/usuarios', async (req, res) => {
         if (senha.length < 4) {
             return res.status(400).json({message: `A senha deve conter no minimo 4 caracteres`})
         }
+        const novoUsuario = { nome: nome, email: email, senha: senha}
+        salvarArquivo(novoUsuario)
+        
         res.status(201).json({ message: `Ola ${nome}, seu email é ${email} e a sua senha é ${senha}`});
     } catch (error) {
        console.error(error);
